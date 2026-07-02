@@ -1,0 +1,6 @@
+project: poppler
+target: doc_fuzzer
+cmds:
+  - cmd: /mayhem/doc_fuzzer
+    libfuzzer: true
+    dictionary: /mayhem/mayhem/poppler.dict

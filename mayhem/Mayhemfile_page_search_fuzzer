@@ -1,0 +1,6 @@
+project: poppler
+target: page_search_fuzzer
+cmds:
+  - cmd: /mayhem/page_search_fuzzer
+    libfuzzer: true
+    dictionary: /mayhem/mayhem/poppler.dict

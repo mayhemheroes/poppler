@@ -1,0 +1,6 @@
+project: poppler
+target: pdf_file_fuzzer
+cmds:
+  - cmd: /mayhem/pdf_file_fuzzer
+    libfuzzer: true
+    dictionary: /mayhem/mayhem/poppler.dict
