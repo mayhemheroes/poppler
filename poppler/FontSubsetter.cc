@@ -171,6 +171,7 @@ void FontSubsetter::subsetAll() const
         return;
     }
 
+    bool subsettingSuccessful = true;
     for (int i = 1; i <= numPages; i++) {
         Page *page = doc->getPage(i);
 
@@ -191,6 +192,9 @@ void FontSubsetter::subsetAll() const
                 auto *ftAnnot = static_cast<AnnotFreeText *>(annot.get());
 
                 auto fontsToRemoveLocal = ftAnnot->subsetFonts(this);
+                if (fontsToRemoveLocal.empty()) {
+                    subsettingSuccessful = false;
+                }
 
                 for (const auto &font : fontsToRemoveLocal) {
                     if (!refSet.contains(*font->getID())) {
@@ -200,6 +204,13 @@ void FontSubsetter::subsetAll() const
                 }
             }
         }
+    }
+
+    /*
+     * If subsetting fails for even one entity (annotation or form), it may not be safe to remove the original fonts since the entity might be using the old fonts
+     */
+    if (!subsettingSuccessful) {
+        return;
     }
 
     // Remove all old font refs from the global resources
